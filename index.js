@@ -1,10 +1,19 @@
 import FileComponent from './src/component.vue'
 
 const Options = {
-  upload(val) {
+  upload(file, onProgress, opts = {}) {
     console.warn('[vue-elder-file]: You need to setup the upload function before using this plugin')
-
-    return Promise.resolve()
+    onProgress(10)
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({
+          name: opts.name || file.name,
+          type: file.type,
+          size: file.size,
+          url: '#',
+        })
+      }, 1000)
+    })
   },
   serialize(val) {
     return val
