@@ -6,8 +6,11 @@
     <div class="elder-file__thumbnail-info">
       <input
         type="text"
+        ref="input"
+        :size="inputSize"
         class="elder-file__thumbnail-name"
         :value="value.name"
+        @keypress.enter="unfocus"
         :disabled="readonly || !rename"
         @input="$emit('rename', $event.target.value)"
       />
@@ -21,11 +24,12 @@
     <div class="elder-file__thumbnail-actions">
       <FontAwesomeIcon
         v-if="!readonly"
-        icon="trash"
+        icon="times"
         title="Remove"
         class="elder-file__thumbnail-delete"
         @click="$emit('delete')"
-      ></FontAwesomeIcon>
+      />
+      <FontAwesomeIcon v-if="sortable" icon="arrows-alt-v" class="elder-file__thumbnail-sort" title="Sort" />
     </div>
   </div>
 </template>
@@ -50,11 +54,20 @@ export default {
     value: Object,
     readonly: Boolean,
     rename: Boolean,
+    sortable: Boolean,
   },
   computed: {
+    inputSize() {
+      return Math.max(20, this.value.name.length)
+    },
     icon() {
       let match = [...Options.icons, ...iconPatters].find(e => this.value.type.match(e.pattern)) || {}
       return match.icon || 'file'
+    },
+  },
+  methods: {
+    unfocus() {
+      this.$refs.input.blur()
     },
   },
   filters: {
@@ -89,8 +102,13 @@ export default {
     background-color: transparent;
     font: inherit;
     font-weight: bold;
-    width: 100%;
+    border-radius: $border-radius;
     color: inherit !important;
+    transition: background-color 150ms ease-out;
+
+    &:hover {
+      background-color: lighten($border-color, 5%);
+    }
   }
 
   &-info {
@@ -126,18 +144,38 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 150ms ease-out, transform 150ms ease-out;
+
+    @media (hover: hover) {
+      opacity: 0;
+      transform: translateX(1rem);
+    }
+
+    .elder-file__thumbnail:hover & {
+      opacity: 1;
+      transform: translateX(0);
+    }
 
     & > * + * {
-      margin-top: 5px;
+      margin-top: 0.5rem;
     }
 
     & > * {
       cursor: pointer;
+      opacity: 0.75;
+      transition: opacity 200ms ease, color 200ms ease;
+
+      &:hover {
+        opacity: 1;
+        color: $primary;
+      }
     }
   }
 
   &-delete {
-    color: rgba($error, 0.8);
+    color: rgba($error, 0.8) !important ;
   }
 }
 </style>

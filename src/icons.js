@@ -1,5 +1,5 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons/faFilePdf'
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons/faFileAlt'
 import { faFileImage } from '@fortawesome/free-solid-svg-icons/faFileImage'
@@ -9,10 +9,12 @@ import { faFilePowerpoint } from '@fortawesome/free-solid-svg-icons/faFilePowerp
 import { faFileArchive } from '@fortawesome/free-solid-svg-icons/faFileArchive'
 import { faFile } from '@fortawesome/free-solid-svg-icons/faFile'
 import { faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons/faArrowAltCircleDown'
+import { faArrowsAltV } from '@fortawesome/free-solid-svg-icons/faArrowsAltV'
 
 library.add(
+  faArrowsAltV,
   faArrowAltCircleDown,
-  faTrash,
+  faTimes,
   faFile,
   faFilePdf,
   faFilePdf,

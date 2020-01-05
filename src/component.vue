@@ -4,22 +4,27 @@
       {{ label }}
       <span v-if="isRequired" class="elder-file__label-required">*</span>
     </label>
-    <div v-if="thumbnails.length || isReadonly" class="elder-file__thumbnails">
+    <draggable
+      v-if="thumbnails.length || isReadonly"
+      v-model="thumbnails"
+      :disabled="!multiple || !sortable"
+      class="elder-file__thumbnails"
+      handle=".elder-file__thumbnail-sort"
+    >
       <thumbnail
         v-for="(item, index) in thumbnails"
         :key="index"
         :readonly="isReadonly"
+        :sortable="sortable"
         :rename="rename === true"
         :value="serializeComp(item)"
-        @rename="$ev => item.name = $ev"
+        @rename="$ev => (item.name = $ev)"
         @delete="remove(item)"
       />
-      <div
-        v-if="!thumbnails.length && isReadonly"
-        class="elder-file__thumbnail"
-        v-html="nofilesMessage"
-      ></div>
-    </div>
+      <template #footer>
+        <div v-if="!thumbnails.length && isReadonly" class="elder-file__thumbnail" v-html="nofilesMessage"></div>
+      </template>
+    </draggable>
     <div v-if="showDroparea" class="elder-file__droparea" @drop="onDrop" @dragover="onDragOver">
       <input type="text" :value="value" :required="isRequired" />
       <input type="file" ref="input" @change="onChange" :disabled="!canUpload" :multiple="multiple" />
@@ -42,6 +47,7 @@
 <script>
 import { AttributeBoolean, Clone } from './utils'
 import { Options } from '../index'
+import Draggable from 'vuedraggable'
 import Uploader from './uploader'
 import Thumbnail from './thumbnail'
 
@@ -67,6 +73,10 @@ export default {
   props: {
     value: [Array, Object, String],
     label: String,
+    sortable: {
+      type: Boolean,
+      default: true,
+    },
     multiple: Boolean,
     rename: {
       type: [Boolean, String],
@@ -104,9 +114,15 @@ export default {
     canUpload() {
       return !this.isReadonly && !this.queue.total
     },
-    thumbnails() {
-      if (!this.value) return []
-      return this.value instanceof Array ? this.value : [this.value]
+    thumbnails: {
+      get() {
+        if (!this.value) return []
+        return this.value instanceof Array ? this.value : [this.value]
+      },
+      set(val) {
+        if (!this.multiple) return
+        this.$emit('input', val)
+      },
     },
   },
   methods: {
@@ -165,6 +181,7 @@ export default {
   components: {
     Uploader,
     Thumbnail,
+    Draggable,
   },
 }
 </script>
@@ -232,7 +249,7 @@ export default {
   }
 
   &__thumbnails {
-    $space: 1rem;
+    $space: 0.5rem;
 
     & > * + * {
       margin-top: $space;
