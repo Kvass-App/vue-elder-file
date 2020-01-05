@@ -7,7 +7,6 @@
       <input
         type="text"
         ref="input"
-        :size="inputSize"
         class="elder-file__thumbnail-name"
         :value="value.name"
         @keypress.enter="unfocus"
@@ -57,9 +56,6 @@ export default {
     sortable: Boolean,
   },
   computed: {
-    inputSize() {
-      return Math.max(20, this.value.name.length)
-    },
     icon() {
       let match = [...Options.icons, ...iconPatters].find(e => this.value.type.match(e.pattern)) || {}
       return match.icon || 'file'
@@ -113,6 +109,9 @@ export default {
 
   &-info {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
     &-footer {
       display: flex;
       align-items: center;
