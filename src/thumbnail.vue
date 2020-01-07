@@ -1,7 +1,7 @@
 <template>
   <div class="elder-file__thumbnail">
     <div class="elder-file__thumbnail-icon">
-      <FontAwesomeIcon :icon="icon" size="2x"></FontAwesomeIcon>
+      <FontAwesomeIcon :icon="icon"></FontAwesomeIcon>
     </div>
     <div class="elder-file__thumbnail-info">
       <input
@@ -28,7 +28,12 @@
         class="elder-file__thumbnail-delete"
         @click="$emit('delete')"
       />
-      <FontAwesomeIcon v-if="sortable" icon="arrows-alt-v" class="elder-file__thumbnail-sort" title="Sort" />
+      <FontAwesomeIcon
+        v-if="sortable"
+        icon="arrows-alt-v"
+        class="elder-file__thumbnail-sort"
+        title="Sort"
+      />
     </div>
   </div>
 </template>
@@ -79,17 +84,23 @@ export default {
 .elder-file__thumbnail {
   @import './variables.scss';
 
+  $spacing: 1rem;
+
   position: relative;
-  padding: 1rem;
+  padding: $spacing;
 
   display: flex;
   align-items: center;
 
+  background-color: white;
   border-radius: $border-radius;
   border: 1px solid $border-color;
 
+  line-height: 1;
+
   &-icon {
-    margin-right: 1rem;
+    font-size: 1.5em;
+    margin-right: $spacing;
     opacity: 0.5;
   }
 
@@ -115,18 +126,20 @@ export default {
     &-footer {
       display: flex;
       align-items: center;
+      margin-top: 0.2rem;
     }
   }
 
   &-size {
     opacity: 0.75;
     font-size: 0.8em;
-    margin-right: 0.5rem;
+    margin-right: $spacing / 2;
   }
 
   &-download {
     color: inherit;
     opacity: 0.5;
+    font-size: 0.85em;
     transition: opacity 150ms ease-out, color 150ms ease-out;
 
     &:hover {
@@ -138,7 +151,7 @@ export default {
   &-actions {
     font-size: 1em;
     margin-left: auto;
-    padding-left: 1rem;
+    padding-left: $spacing;
     align-self: flex-start;
     display: flex;
     flex-direction: column;
@@ -149,7 +162,7 @@ export default {
 
     @media (hover: hover) {
       opacity: 0;
-      transform: translateX(1rem);
+      transform: translateX($spacing);
     }
 
     .elder-file__thumbnail:hover & {
@@ -158,7 +171,7 @@ export default {
     }
 
     & > * + * {
-      margin-top: 0.5rem;
+      margin-top: $spacing/2;
     }
 
     & > * {
