@@ -28,12 +28,7 @@
         class="elder-file__thumbnail-delete"
         @click="$emit('delete')"
       />
-      <FontAwesomeIcon
-        v-if="sortable"
-        icon="arrows-alt-v"
-        class="elder-file__thumbnail-sort"
-        title="Sort"
-      />
+      <FontAwesomeIcon v-if="sortable" icon="arrows-alt-v" class="elder-file__thumbnail-sort" title="Sort" />
     </div>
   </div>
 </template>
@@ -113,7 +108,7 @@ export default {
     color: inherit !important;
     transition: background-color 150ms ease-out;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background-color: lighten($border-color, 5%);
     }
   }
