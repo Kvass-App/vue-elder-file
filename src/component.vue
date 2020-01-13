@@ -15,27 +15,32 @@
         v-for="(item, index) in thumbnails"
         :key="index"
         :readonly="isReadonly"
-        :sortable="sortable"
+        :sortable="sortable && multiple"
         :rename="rename === true"
         :value="serializeComp(item)"
         @rename="$ev => (item.name = $ev)"
         @delete="remove(item)"
       />
       <template #footer>
-        <div
-          v-if="!thumbnails.length && isReadonly"
-          class="elder-file__thumbnail"
-          v-html="nofilesMessage"
-        ></div>
+        <div v-if="!thumbnails.length && isReadonly" class="elder-file__thumbnail" v-html="nofilesMessage"></div>
       </template>
     </draggable>
-    <div v-if="showDroparea" class="elder-file__droparea" @drop="onDrop" @dragover="onDragOver">
+    <div
+      v-if="showDroparea"
+      class="elder-file__droparea"
+      :class="dropareaClass"
+      @drop="onDrop"
+      @dragover="onDragOver"
+      @dragenter="onDragOver"
+      @dragleave="onLeave"
+    >
       <input type="text" :value="value" :required="isRequired" />
-      <input type="file" ref="input" @change="onChange" :disabled="!canUpload" :multiple="multiple" />
+      <input type="file" ref="input" :accept="accept" @change="onChange" :disabled="!canUpload" :multiple="multiple" />
       <div class="elder-file__droparea-instruction">
-        <slot name="drop-message">
+        <slot v-if="isValidDragOver" name="drop-message">
           <div v-html="dropMessage"></div>
         </slot>
+        <FontAwesomeIcon v-else icon="ban" size="lg" />
       </div>
     </div>
     <Uploader
@@ -49,7 +54,9 @@
 </template>
 
 <script>
-import { AttributeBoolean, Clone } from './utils'
+import { AttributeBoolean, Clone, IsAccepted } from './utils'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 import { Options } from '../index'
 import Draggable from 'vuedraggable'
 import Uploader from './uploader'
@@ -82,6 +89,7 @@ export default {
       default: true,
     },
     multiple: Boolean,
+    accept: String,
     rename: {
       type: [Boolean, String],
       default: true,
@@ -96,12 +104,20 @@ export default {
   data() {
     return {
       id: null,
+      isDragOver: false,
+      isValidDragOver: true,
       queue: Clone(QueueTemplate),
     }
   },
   computed: {
     isRequired: AttributeBoolean('required'),
     isReadonly: AttributeBoolean('readonly'),
+    dropareaClass() {
+      return {
+        'elder-file__droparea--active': this.isDragOver,
+        'elder-file__droparea--invalid': !this.isValidDragOver,
+      }
+    },
     showDroparea() {
       if (this.isReadonly) return false
       if (!this.multiple && this.value) return false
@@ -135,7 +151,7 @@ export default {
   },
   methods: {
     run(files) {
-      files = Array.from(files)
+      files = Array.from(files).filter(f => IsAccepted(f, this.accept))
 
       this.queue.total = files.length
       this.queue.counter = 0
@@ -173,11 +189,18 @@ export default {
     },
     onDrop(e) {
       e.preventDefault()
+      this.onLeave()
       if (this.isReadonly || !e.dataTransfer.files.length) return
       this.run(e.dataTransfer.files)
     },
     onDragOver(e) {
+      this.isValidDragOver = Array.from(e.dataTransfer.items).every(e => IsAccepted(e, this.accept))
+      this.isDragOver = true
       e.preventDefault()
+    },
+    onLeave() {
+      this.isValidDragOver = true
+      this.isDragOver = false
     },
     resetQueue() {
       this.queue = Clone(QueueTemplate)
@@ -190,6 +213,7 @@ export default {
     Uploader,
     Thumbnail,
     Draggable,
+    FontAwesomeIcon,
   },
 }
 </script>
@@ -230,6 +254,19 @@ export default {
     padding: 1.5rem 1rem;
     text-align: center;
     flex-grow: 1;
+    transition: background-color 150ms ease-out, border-color 150ms ease-out;
+
+    &--active {
+      background-color: rgba($primary, 0.2);
+      border-color: $primary;
+
+      &.elder-file__droparea--invalid {
+        border-color: $error;
+        color: $error;
+        background-color: rgba($error, 0.2);
+        cursor: not-allowed;
+      }
+    }
 
     &-instruction {
       transition: opacity 250ms ease;
