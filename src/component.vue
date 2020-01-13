@@ -22,7 +22,11 @@
         @delete="remove(item)"
       />
       <template #footer>
-        <div v-if="!thumbnails.length && isReadonly" class="elder-file__thumbnail" v-html="nofilesMessage"></div>
+        <div
+          v-if="!thumbnails.length && isReadonly"
+          class="elder-file__thumbnail"
+          v-html="nofilesMessage"
+        ></div>
       </template>
     </draggable>
     <div v-if="showDroparea" class="elder-file__droparea" @drop="onDrop" @dragover="onDragOver">
@@ -84,6 +88,10 @@ export default {
     },
     upload: Function,
     serialize: Function,
+    uploadOptions: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {
@@ -136,7 +144,7 @@ export default {
 
       Promise.all(
         files.map((file, index) => {
-          let opts = {}
+          let opts = { ...this.uploadOptions }
           if (typeof this.rename === 'string') opts.name = this.rename
           return this.uploadComp(
             file,
