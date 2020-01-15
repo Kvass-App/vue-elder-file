@@ -15,14 +15,17 @@ function BytesToSize(bytes) {
 
 function IsAccepted(file, accept) {
   if (!accept) return true
-  return accept.split(',').some(v => {
-    if (v.startsWith('.')) {
-      let type = Mime.lookup(v)
-      return type === file.type
-    }
-    if (v.includes('*')) return file.type.startsWith(v.replace('*', ''))
-    return file.type === v
-  })
+  return accept
+    .split(',')
+    .map(v => v.trim())
+    .some(v => {
+      if (v.startsWith('.')) {
+        let type = Mime.lookup(v)
+        return type === file.type
+      }
+      if (v.includes('*')) return file.type.startsWith(v.replace('*', ''))
+      return file.type === v
+    })
 }
 
 function Clone(val) {
