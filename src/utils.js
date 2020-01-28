@@ -1,4 +1,4 @@
-import Mime from 'mime-types'
+import * as Mime from 'mime/lite'
 
 function AttributeBoolean(key) {
   return function() {
@@ -20,7 +20,7 @@ function IsAccepted(file, accept) {
     .map(v => v.trim())
     .some(v => {
       if (v.startsWith('.')) {
-        let type = Mime.lookup(v)
+        let type = Mime.getType(v.substring(1))
         return type === file.type
       }
       if (v.includes('*')) return file.type.startsWith(v.replace('*', ''))
