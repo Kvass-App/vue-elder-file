@@ -37,8 +37,8 @@
       <input type="text" :value="value" :required="isRequired" />
       <input type="file" ref="input" :accept="accept" @change="onChange" :disabled="!canUpload" :multiple="multiple" />
       <div class="elder-file__droparea-instruction">
-        <slot v-if="isValidDragOver" name="drop-message">
-          <div v-html="dropMessage"></div>
+        <slot v-if="isValidDragOver" name="drop-message" :extensions="extensions">
+          <SlotHandler :value="dropMessage" :extensions="extensions" />
         </slot>
         <FontAwesomeIcon v-else icon="ban" size="lg" />
       </div>
@@ -54,13 +54,14 @@
 </template>
 
 <script>
-import { AttributeBoolean, Clone, IsAccepted } from './utils'
+import { AttributeBoolean, Clone, IsAccepted, GetFileExtensions } from './utils'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import { Options } from '../index'
 import Draggable from 'vuedraggable'
 import Uploader from './uploader'
 import Thumbnail from './thumbnail'
+import SlotHandler from './SlotHandler'
 
 import './icons'
 
@@ -138,6 +139,9 @@ export default {
     canUpload() {
       return !this.isReadonly && !this.queue.total
     },
+    extensions() {
+      return GetFileExtensions(this.accept)
+    },
     thumbnails: {
       get() {
         if (!this.value) return []
@@ -214,6 +218,7 @@ export default {
     Thumbnail,
     Draggable,
     FontAwesomeIcon,
+    SlotHandler,
   },
 }
 </script>

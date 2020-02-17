@@ -1,5 +1,9 @@
 import * as Mime from 'mime/lite'
 
+const CustomMaps = {
+  'image/*': ['jpeg', 'png', 'gif'],
+}
+
 function AttributeBoolean(key) {
   return function() {
     return ['', true, 'true'].includes(this.$attrs[key])
@@ -11,6 +15,19 @@ function BytesToSize(bytes) {
   if (bytes == 0) return '0 Byte'
   let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)))
   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i]
+}
+
+function GetFileExtensions(accept) {
+  if (!accept) return []
+  return accept
+    .split(',')
+    .map(v => v.trim())
+    .map(v => {
+      if (v.startsWith('.')) return v.substring(1)
+      if (v in CustomMaps) return CustomMaps[v]
+      return Mime.getExtension(v)
+    })
+    .flat()
 }
 
 function IsAccepted(file, accept) {
@@ -32,4 +49,4 @@ function Clone(val) {
   return JSON.parse(JSON.stringify(val))
 }
 
-export { AttributeBoolean, BytesToSize, Clone, IsAccepted }
+export { AttributeBoolean, BytesToSize, Clone, IsAccepted, GetFileExtensions }
