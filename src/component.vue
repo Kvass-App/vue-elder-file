@@ -15,7 +15,7 @@
         v-for="(item, index) in thumbnails"
         :key="index"
         :readonly="isReadonly"
-        :sortable="sortable && multiple"
+        :sortable="sortable && multiple && thumbnails.length > 1"
         :rename="rename === true"
         :value="serializeComp(item)"
         @rename="$ev => (item.name = $ev)"
