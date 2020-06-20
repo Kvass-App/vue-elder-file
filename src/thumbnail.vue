@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     icon() {
-      let match = [...Options.icons, ...iconPatters].find(e => this.value.type.match(e.pattern)) || {}
+      let match = [...Options.icons, ...iconPatters].find((e) => this.value.type.match(e.pattern)) || {}
       return match.icon || 'file'
     },
   },
@@ -76,9 +76,13 @@ export default {
 </script>
 
 <style lang="scss">
-.elder-file__thumbnail {
-  @import './variables.scss';
+@import './main.scss';
 
+:root {
+  @include GenerateVariables();
+}
+
+.elder-file__thumbnail {
   $spacing: 1rem;
 
   position: relative;
@@ -88,8 +92,8 @@ export default {
   align-items: center;
 
   background-color: white;
-  border-radius: $border-radius;
-  border: 1px solid $border-color;
+  border-radius: var(--vue-elder-border-radius);
+  border: 1px solid var(--vue-elder-border-color);
 
   line-height: 1;
 
@@ -104,12 +108,12 @@ export default {
     background-color: transparent;
     font: inherit;
     font-weight: bold;
-    border-radius: $border-radius;
+    border-radius: var(--vue-elder-border-radius);
     color: inherit !important;
     transition: background-color 150ms ease-out;
 
     &:hover:not(:disabled) {
-      background-color: lighten($border-color, 5%);
+      background-color: lighten(var(--vue-elder-border-color), 5%);
     }
   }
 
@@ -138,7 +142,7 @@ export default {
     transition: opacity 150ms ease-out, color 150ms ease-out;
 
     &:hover {
-      color: $primary;
+      color: var(--vue-elder-primary);
       opacity: 1;
     }
   }
@@ -176,13 +180,13 @@ export default {
 
       &:hover {
         opacity: 1;
-        color: $primary;
+        color: var(--vue-elder-primary);
       }
     }
   }
 
   &-delete {
-    color: rgba($error, 0.8) !important ;
+    color: rgba(var(--vue-elder-error), 0.8) !important ;
   }
 }
 </style>
