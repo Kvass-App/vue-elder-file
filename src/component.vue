@@ -245,7 +245,7 @@ export default {
     // margin-bottom: 0.5em;
 
     &-required {
-      color: var(--vue-elder-error);
+      color: GetVariable('error');
     }
   }
 
@@ -254,25 +254,25 @@ export default {
     justify-content: center;
     align-items: center;
     position: relative;
-    border: 2px dashed var(--vue-elder-border-color);
+    border: 2px dashed GetVariable('border-color');
     background-position: center;
     background-repeat: no-repeat;
     background-origin: content-box;
-    background-color: var(--vue-elder-input-color);
-    border-radius: var(--vue-elder-border-radius);
+    background-color: GetVariable('input-color');
+    border-radius: GetVariable('border-radius');
     padding: 1.5rem 1rem;
     text-align: center;
     flex-grow: 1;
     transition: background-color 150ms ease-out, border-color 150ms ease-out;
 
     &--active {
-      background-color: rgba(var(--vue-elder-primary), 0.2);
-      border-color: var(--vue-elder-primary);
+      background-color: rgba(GetVariable('primary'), 0.2);
+      border-color: GetVariable('primary');
 
       &.elder-file__droparea--invalid {
-        border-color: $var(--vue-elder-error);
-        color: $var(--vue-elder-error);
-        background-color: rgba($var(--vue-elder-error), 0.2);
+        border-color: GetVariable('error');
+        color: GetVariable('error');
+        background-color: rgba(GetVariable('error'), 0.2);
         cursor: not-allowed;
       }
     }
@@ -298,7 +298,7 @@ export default {
     }
 
     b {
-      color: var(--vue-elder-primary);
+      color: GetVariable('primary');
     }
   }
 

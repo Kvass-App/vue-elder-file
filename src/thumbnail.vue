@@ -92,8 +92,8 @@ export default {
   align-items: center;
 
   background-color: white;
-  border-radius: var(--vue-elder-border-radius);
-  border: 1px solid var(--vue-elder-border-color);
+  border-radius: GetVariable('border-radius');
+  border: 1px solid GetVariable('border-color');
 
   line-height: 1;
 
@@ -108,12 +108,12 @@ export default {
     background-color: transparent;
     font: inherit;
     font-weight: bold;
-    border-radius: var(--vue-elder-border-radius);
+    border-radius: GetVariable('border-radius');
     color: inherit !important;
     transition: background-color 150ms ease-out;
 
     &:hover:not(:disabled) {
-      background-color: lighten(var(--vue-elder-border-color), 5%);
+      background-color: lighten(GetVariable('border-color'), 5%);
     }
   }
 
@@ -142,7 +142,7 @@ export default {
     transition: opacity 150ms ease-out, color 150ms ease-out;
 
     &:hover {
-      color: var(--vue-elder-primary);
+      color: GetVariable('primary');
       opacity: 1;
     }
   }
@@ -180,13 +180,13 @@ export default {
 
       &:hover {
         opacity: 1;
-        color: var(--vue-elder-primary);
+        color: GetVariable('primary');
       }
     }
   }
 
   &-delete {
-    color: rgba(var(--vue-elder-error), 0.8) !important ;
+    color: rgba(GetVariable('error'), 0.8) !important ;
   }
 }
 </style>

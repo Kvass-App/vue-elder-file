@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './main.scss';@
+@import './main.scss';
 
 :root {
   @include GenerateVariables();
@@ -49,8 +49,8 @@ export default {
 
 .elder-file__uploader {
   background-color: white;
-  border: 1px solid var(--vue-elder-border-color);
-  border-radius: var(--vue-elder-border-radius);
+  border: 1px solid GetVariable('border-color');
+  border-radius: GetVariable('border-radius');
   padding: 1rem;
   display: flex;
   justify-content: space-between;
@@ -61,13 +61,13 @@ export default {
   &-bar {
     flex-grow: 1;
     margin: 0 1rem;
-    border-radius: var(--vue-elder-border-radius);
+    border-radius: GetVariable('border-radius');
     height: 5px;
-    background-color: var(--vue-elder-border-color);
+    background-color: GetVariable('border-color');
   }
 
   &-bar-value {
-    background-color: var(--vue-elder-primary);
+    background-color: GetVariable('primary');
     height: inherit;
     border-radius: inherit;
     transition: width 100ms ease;
