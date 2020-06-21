@@ -18,7 +18,7 @@
         :sortable="sortable && multiple && thumbnails.length > 1"
         :rename="rename === true"
         :value="serializeComp(item)"
-        @rename="$ev => (item.name = $ev)"
+        @rename="($ev) => (item.name = $ev)"
         @delete="remove(item)"
       />
       <template #footer>
@@ -155,7 +155,7 @@ export default {
   },
   methods: {
     run(files) {
-      files = Array.from(files).filter(f => IsAccepted(f, this.accept))
+      files = Array.from(files).filter((f) => IsAccepted(f, this.accept))
 
       this.queue.total = files.length
       this.queue.counter = 0
@@ -168,24 +168,24 @@ export default {
           if (typeof this.rename === 'string') opts.name = this.rename
           return this.uploadComp(
             file,
-            val => {
+            (val) => {
               progress[index] = val
               this.queue.progress = progress.reduce((r, c) => (r += c), 0) / progress.length
             },
             opts,
-          ).then(res => {
+          ).then((res) => {
             this.queue.counter++
             return res
           })
         }),
-      ).then(result => {
+      ).then((result) => {
         if (!result || !result.length) return
         this.$emit('input', this.multiple ? [...(this.value || []), ...result] : result[0])
         this.resetQueue()
       })
     },
     remove(item) {
-      this.$emit('input', this.multiple ? this.value.filter(v => v !== item) : null)
+      this.$emit('input', this.multiple ? this.value.filter((v) => v !== item) : null)
     },
     onChange(e) {
       this.run(e.target.files)
@@ -198,7 +198,7 @@ export default {
       this.run(e.dataTransfer.files)
     },
     onDragOver(e) {
-      this.isValidDragOver = Array.from(e.dataTransfer.items).every(e => IsAccepted(e, this.accept))
+      this.isValidDragOver = Array.from(e.dataTransfer.items).every((e) => IsAccepted(e, this.accept))
       this.isDragOver = true
       e.preventDefault()
     },
@@ -224,9 +224,13 @@ export default {
 </script>
 
 <style lang="scss">
-.elder-file {
-  @import './variables.scss';
+@import './main.scss';
 
+:root {
+  @include GenerateVariables();
+}
+
+.elder-file {
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -241,7 +245,7 @@ export default {
     // margin-bottom: 0.5em;
 
     &-required {
-      color: $error;
+      color: GetVariable('error');
     }
   }
 
@@ -250,25 +254,25 @@ export default {
     justify-content: center;
     align-items: center;
     position: relative;
-    border: 2px dashed $border-color;
+    border: 2px dashed GetVariable('border-color');
     background-position: center;
     background-repeat: no-repeat;
     background-origin: content-box;
-    background-color: $input-color;
-    border-radius: $border-radius;
+    background-color: GetVariable('input-color');
+    border-radius: GetVariable('border-radius');
     padding: 1.5rem 1rem;
     text-align: center;
     flex-grow: 1;
     transition: background-color 150ms ease-out, border-color 150ms ease-out;
 
     &--active {
-      background-color: rgba($primary, 0.2);
-      border-color: $primary;
+      background-color: rgba(GetVariable('primary'), 0.2);
+      border-color: GetVariable('primary');
 
       &.elder-file__droparea--invalid {
-        border-color: $error;
-        color: $error;
-        background-color: rgba($error, 0.2);
+        border-color: GetVariable('error');
+        color: GetVariable('error');
+        background-color: rgba(GetVariable('error'), 0.2);
         cursor: not-allowed;
       }
     }
@@ -294,7 +298,7 @@ export default {
     }
 
     b {
-      color: $primary;
+      color: GetVariable('primary');
     }
   }
 
