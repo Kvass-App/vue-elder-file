@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './main.scss';
+@import './main';
 
 .elder-file__uploader {
   font-size: 0.7em;

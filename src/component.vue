@@ -224,11 +224,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './main.scss';
-
-:root {
-  @include GenerateVariables();
-}
+@import './main';
 
 .elder-file {
   display: flex;

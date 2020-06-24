@@ -76,7 +76,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './main.scss';
+@import './main';
 
 .elder-file__thumbnail {
   $spacing: 1rem;
