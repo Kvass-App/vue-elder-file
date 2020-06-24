@@ -233,6 +233,7 @@ export default {
 .elder-file {
   display: flex;
   flex-direction: column;
+
   text-align: left;
 
   & > * + * {
@@ -240,8 +241,9 @@ export default {
   }
 
   &__label {
-    display: block;
     font-weight: bold;
+
+    display: block;
     // margin-bottom: 0.5em;
 
     &-required {
@@ -250,50 +252,81 @@ export default {
   }
 
   &__droparea {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
-    border: 2px dashed GetVariable('border-color');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-    background-color: GetVariable('input-color');
-    border-radius: GetVariable('border-radius');
-    padding: 1.5rem 1rem;
-    text-align: center;
+
+    display: flex;
+    align-items: center;
     flex-grow: 1;
+    justify-content: center;
+
+    padding: 1.5rem 1rem;
+
     transition: background-color 150ms ease-out, border-color 150ms ease-out;
+    text-align: center;
+
+    border: 2px dashed GetVariable('border-color');
+    border-radius: GetVariable('border-radius');
+    background-color: GetVariable('input-color');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-origin: content-box;
+
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      content: '';
+
+      opacity: 0;
+      background-color: GetVariable('primary');
+    }
 
     &--active {
-      background-color: rgba(GetVariable('primary'), 0.2);
       border-color: GetVariable('primary');
 
+      &:before {
+        opacity: 0.15;
+      }
+
       &.elder-file__droparea--invalid {
-        border-color: GetVariable('error');
-        color: GetVariable('error');
-        background-color: rgba(GetVariable('error'), 0.2);
         cursor: not-allowed;
+
+        color: GetVariable('error');
+        border-color: GetVariable('error');
+
+        &:before {
+          opacity: 0.15;
+          background-color: GetVariable('error');
+        }
       }
     }
 
     &-instruction {
-      transition: opacity 250ms ease;
       font-size: 0.9em;
+
+      transition: opacity 250ms ease;
     }
 
     input {
       position: absolute;
       top: 0;
       left: 0;
+
       width: 100%;
       height: 100%;
-      opacity: 0;
+
       cursor: pointer;
 
+      opacity: 0;
+
       &[type='text'] {
-        pointer-events: none;
         z-index: -1;
+
+        pointer-events: none;
       }
     }
 
