@@ -43,34 +43,37 @@ export default {
 <style lang="scss">
 @import './main.scss';
 
-:root {
-  @include GenerateVariables();
-}
-
 .elder-file__uploader {
-  background-color: white;
+  font-size: 0.7em;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem;
+
   border: 1px solid GetVariable('border-color');
   border-radius: GetVariable('border-radius');
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
-  font-size: 0.7em;
+  background-color: white;
 
   &-bar {
     flex-grow: 1;
-    margin: 0 1rem;
-    border-radius: GetVariable('border-radius');
+
     height: 5px;
+    margin: 0 1rem;
+
+    border-radius: GetVariable('border-radius');
     background-color: GetVariable('border-color');
   }
 
   &-bar-value {
-    background-color: GetVariable('primary');
     height: inherit;
-    border-radius: inherit;
+
     transition: width 100ms ease;
+
+    border-radius: inherit;
+    background-color: GetVariable('primary');
   }
 
   &-meta {

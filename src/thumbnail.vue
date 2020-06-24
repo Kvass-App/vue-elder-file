@@ -78,95 +78,108 @@ export default {
 <style lang="scss">
 @import './main.scss';
 
-:root {
-  @include GenerateVariables();
-}
-
 .elder-file__thumbnail {
   $spacing: 1rem;
 
+  line-height: 1;
+
   position: relative;
-  padding: $spacing;
 
   display: flex;
   align-items: center;
 
-  background-color: white;
-  border-radius: GetVariable('border-radius');
-  border: 1px solid GetVariable('border-color');
+  padding: $spacing;
 
-  line-height: 1;
+  border: 1px solid GetVariable('border-color');
+  border-radius: GetVariable('border-radius');
+  background-color: white;
 
   &-icon {
     font-size: 1.5em;
+
     margin-right: $spacing;
+
     opacity: 0.5;
   }
 
   &-name {
-    border: none;
-    background-color: transparent;
     font: inherit;
     font-weight: bold;
-    border-radius: GetVariable('border-radius');
-    color: inherit !important;
+
     transition: background-color 150ms ease-out;
 
+    color: inherit !important;
+    border: none;
+    border-radius: GetVariable('border-radius');
+    background-color: transparent;
+
     &:hover:not(:disabled) {
-      background-color: lighten(GetVariable('border-color'), 5%);
+      // background-color: lighten(GetVariable('border-color'), 5%);
+      background-color: GetVariable('border-color');
     }
   }
 
   &-info {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 
     &-footer {
       display: flex;
       align-items: center;
+
       margin-top: 0.2rem;
     }
   }
 
   &-size {
-    opacity: 0.75;
     font-size: 0.8em;
+
     margin-right: $spacing / 2;
+
+    opacity: 0.75;
   }
 
   &-download {
-    color: inherit;
-    opacity: 0.5;
     font-size: 0.85em;
+
     transition: opacity 150ms ease-out, color 150ms ease-out;
 
+    opacity: 0.5;
+    color: inherit;
+
     &:hover {
-      color: GetVariable('primary');
       opacity: 1;
+      color: GetVariable('primary');
     }
   }
 
   &-actions {
     font-size: 1em;
+
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    flex-direction: column;
+
     margin-left: auto;
     padding-left: $spacing;
-    align-self: flex-start;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    opacity: 1;
-    transform: translateX(0);
+
     transition: opacity 150ms ease-out, transform 150ms ease-out;
+    transform: translateX(0);
+
+    opacity: 1;
 
     @media (hover: hover) {
-      opacity: 0;
       transform: translateX($spacing);
+
+      opacity: 0;
     }
 
     .elder-file__thumbnail:hover & {
-      opacity: 1;
       transform: translateX(0);
+
+      opacity: 1;
     }
 
     & > * + * {
@@ -175,8 +188,9 @@ export default {
 
     & > * {
       cursor: pointer;
-      opacity: 0.75;
       transition: opacity 200ms ease, color 200ms ease;
+
+      opacity: 0.75;
 
       &:hover {
         opacity: 1;
@@ -186,7 +200,8 @@ export default {
   }
 
   &-delete {
-    color: rgba(GetVariable('error'), 0.8) !important ;
+    // color: rgba(GetVariable('error'), 0.8) !important ;
+    color: GetVariable('error') !important ;
   }
 }
 </style>
