@@ -34,8 +34,15 @@
       @dragenter="onDragOver"
       @dragleave="onLeave"
     >
-      <input type="text" :value="value" :required="isRequired" />
-      <input type="file" ref="input" :accept="accept" @change="onChange" :disabled="!canUpload" :multiple="multiple" />
+      <input
+        type="file"
+        ref="input"
+        :accept="accept"
+        @change="onChange"
+        :required="isRequired"
+        :disabled="!canUpload"
+        :multiple="multiple"
+      />
       <div class="elder-file__droparea-instruction">
         <slot v-if="isValidDragOver" name="drop-message" :extensions="extensions">
           <SlotHandler :value="dropMessage" :extensions="extensions" />
@@ -195,6 +202,8 @@ export default {
       e.preventDefault()
       this.onLeave()
       if (this.isReadonly || !e.dataTransfer.files.length) return
+      this.$refs.input.files = e.dataTransfer.files
+      this.$refs.input.dispatchEvent(new InputEvent('input'))
       this.run(e.dataTransfer.files)
     },
     onDragOver(e) {
